@@ -102,6 +102,16 @@
 <footer>
     <p class="copy">Copyrights &copy; | 2023</p>
 </footer>
+<script>
 
+    const chartConfig = '<%-chart1%>';
+
+    const config = JSON.parse(chartConfig);
+
+    const chart1 = new Chart(
+        document.getElementById('chart1'),
+        config
+    );
+</script>
 </body>
 </html>
