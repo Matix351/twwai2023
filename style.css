@@ -3,6 +3,51 @@ body, html {
    margin: 0;
 }
 
+.logo-wrapper {
+   position: relative;
+   height: 200px;
+   display: flex;
+   justify-content: center;
+}
+
+.logo_katedra {
+   background: url("./public/ki.jpg");
+   background-size: cover;
+   left: 10px;
+   width: 200px;
+   height: 200px;
+   position: absolute;
+}
+
+.logo-at {
+   background: url("./public/at.jpg");
+   background-size: cover;
+   right: 30px;
+   
+   width: 200px;
+   height: 200px;
+   position: absolute;
+}
+
+.background {
+   /* background-image: url("./public/bg.jpg"); */
+   background-image: url("http://localhost:3000/bg.jpg");
+   height: 100%;
+
+   background-attachment: fixed;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+
+.text {
+   height: 100vh;
+   background-color: #e8dbdb;
+   font-size: 36px;
+   padding: 15px;
+}
+
+
 nav {
    position: fixed;
    background-color: #fff;
@@ -28,9 +73,15 @@ nav ul li a:hover {
    color: #000;
 }
 
-.text {
-   height: 100vh;
-   background-color: #e8dbdb;
-   font-size: 36px;
+footer {
+   text-align: center;
+}
+
+.other {
+   background-color: #6c92e5;
+   padding: 15px;
+}
+
+.kontakt {
    padding: 15px;
 }
