@@ -3,6 +3,9 @@ import express from 'express';
 import morgan from 'morgan';
 import Controller from './interfaces/controller.interface';
 import { config } from './config'
+import mongoose from 'mongoose';
+
+
 
 class App {
   public app: express.Application;
@@ -12,6 +15,9 @@ class App {
 
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
+    this.connectToDatabase();
+
+    
   }
 
   public listen(): void {
@@ -31,5 +37,22 @@ class App {
       this.app.use('/', controller.router);
     });
   }
+
+  private connectToDatabase(): void {
+    mongoose.connect(config.databaseUrl);
+ 
+    const db = mongoose.connection;
+ 
+    db.on('error', (error: any) => {
+        console.error('Error connection - MongoDB:', error);
+    });
+
+    db.once('open', () => {
+      console.log('Connect with database established');
+  });
+}
+
+ 
+  
 }
 export default App;
