@@ -7,7 +7,6 @@ app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
 const path = require('path');
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 
