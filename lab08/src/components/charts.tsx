@@ -1,30 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import SingleRecord from './singleRecord';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
 export const options = {
-
     responsive: true,
     plugins: {
         legend: {
@@ -35,21 +10,14 @@ export const options = {
             text: 'Chart.js Line Chart',
         },
     },
-};
-
-export type Data = {
-    pressure: string;
-    temperature: string;
-    humidity: string;
-    date: string;
-};
-
-function generateChartData(data: Data[]) {
+ };
+ 
+ function generateChartData(data) {
     const labels = data.map(entry => new Date(entry.date).toLocaleTimeString());
     const pressureData = data.map(entry => parseFloat(entry.pressure));
     const temperatureData = data.map(entry => parseFloat(entry.temperature));
     const humidityData = data.map(entry => parseFloat(entry.humidity));
-
+ 
     return {
         labels,
         datasets: [
@@ -73,56 +41,46 @@ function generateChartData(data: Data[]) {
             },
         ],
     };
-}
-
-
-
-function Charts() {
-    const [chartData, setChartData] = useState();
-    const [firstRecord, setFirstRecord] = useState<Data>();
-    const [loading, setLoading] = useState(true);
-
+ }
+ 
+ 
+ 
+ function Charts() {
+ 
+    const [chartData, setChartData] = useState(null);
+    const [loading, setLoading] = useState(false);
+ 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch('http://localhost:3100/api/data');
                 const result = await response.json();
-
+ 
                 console.log(result)
-
+ 
                 const formattedChartData = generateChartData(result);
-
+ 
                 setChartData(formattedChartData);
                 setLoading(false);
-
+ 
                 console.log(chartData)
             } catch (error) {
                 console.error('Błąd podczas pobierania danych:', error);
                 setLoading(false);
             }
         };
-
-        const fetchFirstRecord = async () => {
-            try {
-                const response = await fetch('http://localhost:3100/api/firstRecord');
-                const result = await response.json();
-
-                setFirstRecord(result);
-            } catch (error) {
-                console.error('Błąd podczas pobierania danych:', error);
-            }
-        }
-
+ 
         fetchData();
-        fetchFirstRecord();
     }, []);
-
+ 
     return (
-        <div style={{ padding: 20 }}>
+        <div style={{padding: 20}}>
             <h2>Komponent Charts</h2>
-            {loading && !chartData && firstRecord === undefined ? <div>Loading</div> : <div><SingleRecord record={firstRecord} /> <Line options={options} data={chartData} /></div>}
+            {chartData && !loading ? <Line options={options} data={chartData} /> : <span>brak danych</span>}
+ 
         </div>
     );
-}
-
-export default Charts;
+ }
+ 
+ export default Charts;
+ 
