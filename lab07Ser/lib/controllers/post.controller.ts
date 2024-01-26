@@ -1,54 +1,71 @@
 import Controller from '../interfaces/controller.interface';
+import PostModel from '../models/PostModel';
 import { Request, Response, NextFunction, Router } from 'express';
-import PostModel from "../models/PostModel";
+import DataModel from "../models/DataModel";
 
 
 class PostController implements Controller {
-   public path = '/api/posts';
-   public router = Router();
+    public path = '/api/posts';
+    public pathSinglePost = '/api/post';
+    public router = Router();
 
-   constructor() {
-       this.initializeRoutes();
-   }
+    constructor() {
+        this.initializeRoutes();
+    }
 
-   private initializeRoutes() {
-       this.router.get(this.path, this.getPosts);
-       this.router.post(this.path, this.createPost);
+    private initializeRoutes() {
+        this.router.get(this.path, this.getPosts);
+        this.router.get(this.pathSinglePost, this.getSinglePost);
+        this.router.post(this.path, this.createPost);
+    }
 
-   }
-
-   private getPosts = async (request: Request, response: Response) => {
-       // Tutaj dodaj logikę pobierania obiektów postów z bazy danych
-       try {
-           // Przykładowa odpowiedź z obiektami postów (możesz dostosować do swojej bazy danych)
-           const posts = [
-               { id: 1, title: 'Post 1', content: 'Treść posta 1' },
-               { id: 2, title: 'Post 2', content: 'Treść posta 2' },
-           ];
-
-           // Odpowiedź JSON z obiektami postów
-           response.json(posts);
-       } catch (error) {
-                   // Obsługa błędów
-                   console.error('Błąd podczas pobierania postów:', error);
-                   response.status(500).json({ error: 'Wystąpił błąd podczas pobierania postów' });
-               }
-           };
-
-           private createPost = async (request: Request, response: Response) => {
-            const { title, text, image } = request.body;
-         
-            try {
-                const newPost = new PostModel({ title, text, image });
-                await newPost.save();
-                response.status(201).json(newPost);
-            } catch (error) {
-                console.error('Error:', error);
-                response.status(500).json({ error: 'Error occurred' });
-            }
-         };
-         
-
+    private getPosts = async (request: Request, response: Response) => {
+        try {
+            const posts = await PostModel.find({}); // findAll
+            // Odpowiedź JSON z obiektami postów
+            response.json(posts);
+        } catch (error) {
+            // Obsługa błędów
+            console.error('Błąd podczas pobierania postów:', error);
+            response.status(500).json({ error: 'Wystąpił błąd podczas pobierania postów' });
         }
-        
-        export default PostController;
+    };
+
+    private getSinglePost = async (request: Request, response: Response) => {
+        try {
+            const posts = await PostModel.find({ title: 'Post 1' }); // find by title
+
+            response.json(posts);
+        } catch (error) {
+
+            console.error('Błąd podczas pobierania postów:', error);
+            response.status(500).json({ error: 'Wystąpił błąd podczas pobierania postów' });
+        }
+    };
+
+    private createPost = async (request: Request, response: Response) => {
+        const { title, text, image } = request.body;
+
+        try {
+            const newPost = new PostModel({ title, text, image });
+            await newPost.save();
+            response.status(201).json(newPost);
+        } catch (error) {
+            console.error('Error:', error);
+            response.status(500).json({ error: 'Error occurred' });
+        }
+    };
+
+    private getData = async (request: Request, response: Response) => {
+        try {
+            const data = await DataModel.find();
+            response.status(200).json(data);
+        } catch (error) {
+            console.error('Błąd podczas pobierania danych:', error);
+            response.status(500).json({ error: 'Wystąpił błąd podczas pobierania danych' });
+        }
+    };
+ 
+}
+
+export default PostController;
