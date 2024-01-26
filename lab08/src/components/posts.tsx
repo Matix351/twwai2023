@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
 
-const [data, setData] = useState(null);
-const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-   const fetchData = async () => {
-       try {
-           const response = await fetch('http://localhost:3100/api/posts');
-           const result = await response.json();
-            //wydruk danych w konsoli
-           console.log(result)
+export default function Posts() {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-           setData(result);
-           setLoading(false);
-       } catch (error) {
-           console.error('Błąd podczas pobierania danych:', error);
-           setLoading(false);
-       }
-   };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:3100/api/posts');
+                const result = await response.json();
 
-   fetchData();
-}, []);
+                console.log(result)
+
+                setData(result);
+                setLoading(false);
+            } catch (error) {
+                console.error('Błąd podczas pobierania danych:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
 return (
     <div>
