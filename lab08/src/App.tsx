@@ -5,6 +5,7 @@ import './App.css'
 import Home from './components/home'
 import AddPost from './components/addPost'
 import Posts from './components/posts'
+import Charts from './components/charts';
 
 import { BrowserRouter as Router, Routes, Route, Link }
   from 'react-router-dom';
@@ -24,11 +25,15 @@ function App() {
         <Link to="/add_post" style={{ padding: 5 }}>
           Add posts
         </Link>
+        <Link to="/charts" style={{ padding: 5 }}>
+          Charts
+        </Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/add_post" element={<AddPost />} />
+        <Route path="/charts" element={<Charts />} />
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </ Router>
