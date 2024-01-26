@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 export default function Posts() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -24,27 +23,28 @@ export default function Posts() {
         fetchData();
     }, []);
 
-return (
-    <div>
-        {loading ? (
-            <p>Ładowanie danych...</p>
-        ) : (
-            <div>
-                <ul style={{listStyleType: "none"}}>
-                    {data.map((item, index) => (
-                        <li key={index}>
-                            <div>
-                                Tytuł: {item.title}
-                            </div>
-                            <div>
-                                {item.text}
-                            </div>
-                            <hr/>
-                        </li>
- 
-                    ))}
-                </ul>
-            </div>
-        )}
-    </div>
- );
+    return (
+        <div>
+            {loading ? (
+                <p>Ładowanie danych...</p>
+            ) : (
+                <div>
+                    <ul style={{ listStyleType: "none" }}>
+                        {data.map((item, index) => (
+                            <li key={index}>
+                                <div>
+                                    Tytuł: {item.title}
+                                </div>
+                                <div>
+                                    {item.text}
+                                </div>
+                                <hr />
+                            </li>
+
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+}
